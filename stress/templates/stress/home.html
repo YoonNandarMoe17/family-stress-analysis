@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Family Stress Analysis</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f8fc;
+            color: #263238;
+            line-height: 1.6;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            background: #263b5b;
+            padding: 18px 7%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            color: white;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #b9d7ff;
+        }
+
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 590px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 70px 8%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #263b5b 0%,
+                    #3d587d 52%,
+                    #eaf0f7 52%,
+                    #f5f8fc 100%
+                );
+
+            gap: 50px;
+        }
+
+        .hero-content {
+            width: 55%;
+            color: white;
+        }
+
+        .tag {
+            display: inline-block;
+
+            padding: 8px 16px;
+
+            background: rgba(255, 255, 255, 0.14);
+
+            border: 1px solid rgba(255, 255, 255, 0.2);
+
+            border-radius: 30px;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            letter-spacing: 0.5px;
+
+            margin-bottom: 22px;
+        }
+
+        .hero-content h1 {
+            font-size: 52px;
+            line-height: 1.12;
+
+            margin-bottom: 22px;
+
+            max-width: 700px;
+        }
+
+        .hero-content h1 span {
+            color: #cfe3ff;
+        }
+
+        .hero-content p {
+            font-size: 17px;
+            line-height: 1.8;
+
+            max-width: 650px;
+
+            color: #e6edf7;
+        }
+
+        .hero-buttons {
+            margin-top: 32px;
+        }
+
+        .btn {
+            display: inline-block;
+
+            padding: 14px 28px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            margin-right: 10px;
+
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #263b5b;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            border: 1px solid white;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #263b5b;
+        }
+
+
+        /* ================= HERO VISUAL ================= */
+
+        .hero-visual {
+            width: 38%;
+
+            display: flex;
+            justify-content: center;
+        }
+
+        .analysis-card {
+            width: 350px;
+
+            background: rgba(255, 255, 255, 0.96);
+
+            border-radius: 22px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 20px 50px rgba(20, 38, 65, 0.22);
+
+            transform: rotate(1deg);
+        }
+
+        .analysis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+        .analysis-header h3 {
+            color: #263b5b;
+            font-size: 18px;
+        }
+
+        .status {
+            font-size: 11px;
+            font-weight: bold;
+
+            background: #edf6ef;
+            color: #3d7650;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+        }
+
+        .stress-display {
+            background: #f4f7fb;
+
+            border-radius: 16px;
+
+            padding: 22px;
+
+            text-align: center;
+
+            margin-bottom: 18px;
+        }
+
+        .stress-display .emoji {
+            font-size: 42px;
+            margin-bottom: 8px;
+        }
+
+        .stress-display h2 {
+            color: #263b5b;
+            font-size: 23px;
+        }
+
+        .stress-display p {
+            color: #7a8798;
+            font-size: 13px;
+        }
+
+        .mini-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .mini-row {
+            display: grid;
+            grid-template-columns: 90px 1fr 45px;
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 12px;
+            color: #667085;
+        }
+
+        .bar {
+            height: 8px;
+
+            background: #e5eaf1;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+        .bar span {
+            display: block;
+
+            height: 100%;
+
+            border-radius: 20px;
+        }
+
+        .bar-low span {
+            width: 35%;
+            background: #9db9d9;
+        }
+
+        .bar-medium span {
+            width: 70%;
+            background: #6688ae;
+        }
+
+        .bar-high span {
+            width: 48%;
+            background: #425f82;
+        }
+
+
+        /* ================= INTRO ================= */
+
+        .intro {
+            padding: 85px 8% 55px;
+
+            text-align: center;
+
+            background: white;
+        }
+
+        .section-label {
+            color: #6688ae;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            color: #263b5b;
+
+            font-size: 34px;
+
+            margin-bottom: 15px;
+        }
+
+        .section-description {
+            max-width: 760px;
+
+            margin: auto;
+
+            color: #667085;
+
+            line-height: 1.8;
+
+            font-size: 15px;
+        }
+
+
+        /* ================= ANALYSIS AREAS ================= */
+
+        .analysis-section {
+            padding: 65px 8% 75px;
+        }
+
+        .center-heading {
+            text-align: center;
+
+            margin-bottom: 42px;
+        }
+
+        .analysis-grid {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 25px;
+        }
+
+        .analysis-box {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 16px;
+
+            border: 1px solid #e5eaf1;
+
+            box-shadow: 0 6px 22px rgba(31, 45, 61, 0.06);
+
+            transition: 0.3s;
+        }
+
+        .analysis-box:hover {
+            transform: translateY(-5px);
+
+            box-shadow: 0 12px 28px rgba(31, 45, 61, 0.10);
+        }
+
+        .analysis-icon {
+            width: 55px;
+            height: 55px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background: #edf3fa;
+
+            font-size: 25px;
+
+            margin-bottom: 20px;
+        }
+
+        .analysis-box h3 {
+            color: #263b5b;
+
+            margin-bottom: 12px;
+
+            font-size: 19px;
+        }
+
+        .analysis-box p {
+            color: #667085;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+        .method-tag {
+            display: inline-block;
+
+            margin-top: 18px;
+
+            padding: 6px 11px;
+
+            border-radius: 20px;
+
+            background: #f0f4f9;
+
+            color: #526b89;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+
+        /* ================= STRESS CATEGORIES ================= */
+
+        .stress-section {
+            padding: 75px 8%;
+
+            background: white;
+        }
+
+        .stress-grid {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 25px;
+
+            margin-top: 40px;
+        }
+
+        .stress-card {
+            padding: 32px;
+
+            border-radius: 16px;
+
+            text-align: center;
+
+            background: #f7f9fc;
+
+            border: 1px solid #e6ebf2;
+
+            transition: 0.3s;
+        }
+
+        .stress-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .stress-card .stress-icon {
+            font-size: 38px;
+
+            margin-bottom: 12px;
+        }
+
+        .stress-card h3 {
+            color: #263b5b;
+
+            font-size: 21px;
+
+            margin-bottom: 8px;
+        }
+
+        .stress-card p {
+            color: #667085;
+
+            font-size: 14px;
+        }
+
+        .low-card {
+            border-top: 4px solid #9db9d9;
+        }
+
+        .medium-card {
+            border-top: 4px solid #6688ae;
+        }
+
+        .high-card {
+            border-top: 4px solid #425f82;
+        }
+
+
+        /* ================= STATISTICS ================= */
+
+        .stats-section {
+            background: #263b5b;
+
+            padding: 65px 8%;
+        }
+
+        .stats-title {
+            text-align: center;
+
+            color: white;
+
+            font-size: 30px;
+
+            margin-bottom: 40px;
+        }
+
+        .stats {
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 20px;
+        }
+
+        .stat {
+            text-align: center;
+
+            color: white;
+
+            padding: 25px 15px;
+
+            border-right: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .stat:last-child {
+            border-right: none;
+        }
+
+        .stat h2 {
+            font-size: 36px;
+
+            margin-bottom: 7px;
+        }
+
+        .stat p {
+            color: #cbd5e1;
+
+            font-size: 13px;
+        }
+
+
+        /* ================= KEY FINDING ================= */
+
+        .finding-section {
+            padding: 80px 8%;
+        }
+
+        .finding-card {
+            max-width: 1000px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns: 0.8fr 2fr;
+
+            align-items: center;
+
+            gap: 40px;
+
+            background: linear-gradient(
+                135deg,
+                #e8eef6,
+                #f5f8fc
+            );
+
+            border-radius: 20px;
+
+            padding: 45px;
+
+            border: 1px solid #dce5ef;
+        }
+
+        .finding-number {
+            text-align: center;
+
+            color: #263b5b;
+
+            font-size: 64px;
+
+            font-weight: bold;
+        }
+
+        .finding-number small {
+            display: block;
+
+            font-size: 13px;
+
+            color: #6688ae;
+
+            font-weight: bold;
+        }
+
+        .finding-content h2 {
+            color: #263b5b;
+
+            font-size: 27px;
+
+            margin-bottom: 12px;
+        }
+
+        .finding-content p {
+            color: #667085;
+
+            line-height: 1.8;
+
+            font-size: 14px;
+        }
+
+
+        /* ================= HOW IT WORKS ================= */
+
+        .process {
+            padding: 75px 8%;
+
+            background: white;
+        }
+
+        .process-title {
+            text-align: center;
+
+            color: #263b5b;
+
+            font-size: 32px;
+
+            margin-bottom: 45px;
+        }
+
+        .steps {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 30px;
+        }
+
+        .step {
+            text-align: center;
+
+            position: relative;
+        }
+
+        .step-number {
+            width: 52px;
+            height: 52px;
+
+            margin: 0 auto 18px;
+
+            border-radius: 50%;
+
+            background: #263b5b;
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            box-shadow: 0 5px 15px rgba(38, 59, 91, 0.2);
+        }
+
+        .step h3 {
+            color: #263b5b;
+
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            color: #667085;
+
+            line-height: 1.7;
+
+            font-size: 14px;
+        }
+
+
+        /* ================= CTA ================= */
+
+        .cta {
+            margin: 70px 8%;
+
+            padding: 65px 30px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #263b5b,
+                    #3d587d
+                );
+
+            text-align: center;
+
+            box-shadow: 0 15px 35px rgba(38, 59, 91, 0.16);
+        }
+
+        .cta h2 {
+            color: white;
+
+            font-size: 32px;
+
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            color: #dce6f2;
+
+            margin-bottom: 27px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+
+            background: white;
+
+            color: #263b5b;
+
+            padding: 14px 32px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #1d2d45;
+
+            color: #cbd5e1;
+
+            text-align: center;
+
+            padding: 28px;
+
+            font-size: 13px;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1000px) {
+
+            .hero {
+                background: #263b5b;
+
+                flex-direction: column;
+
+                text-align: center;
+
+                padding-top: 65px;
+                padding-bottom: 75px;
+            }
+
+            .hero-content {
+                width: 100%;
+            }
+
+            .hero-content p {
+                margin: auto;
+            }
+
+            .hero-visual {
+                width: 100%;
+            }
+
+            .analysis-grid,
+            .stress-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat:nth-child(2) {
+                border-right: none;
+            }
+
+            .finding-card {
+                grid-template-columns: 1fr;
+
+                text-align: center;
+            }
+        }
+
+
+        @media (max-width: 750px) {
+
+            .features,
+            .analysis-grid,
+            .stress-grid,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content h1 {
+                font-size: 40px;
+            }
+
+            .finding-card {
+                padding: 30px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+            .nav-links {
+                gap: 18px;
+            }
+
+            .hero {
+                padding: 55px 25px;
+            }
+
+            .hero-content h1 {
+                font-size: 34px;
+            }
+
+            .hero-buttons {
+                display: flex;
+
+                flex-direction: column;
+
+                gap: 12px;
+
+                align-items: center;
+            }
+
+            .btn {
+                margin-right: 0;
+
+                width: 210px;
+            }
+
+            .analysis-card {
+                width: 100%;
+
+                max-width: 350px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .stat {
+                border-right: none;
+
+                border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            }
+
+            .stat:last-child {
+                border-bottom: none;
+            }
+
+            .cta {
+                margin-left: 5%;
+                margin-right: 5%;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Family Stress Analysis
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/prediction/">
+                Prediction
+            </a>
+
+            <a href="/dashboard/">
+                Dashboard
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="tag">
+                DATA MINING  PROJECT
+            </div>
+
+            <h1>
+                Understanding
+                <span>Family Stress</span>
+                Through Data
+            </h1>
+
+            <p>
+                An intelligent data mining system that analyzes
+                personal, family, employment, income, and
+                work-family factors to discover meaningful stress
+                patterns and predict stress categories using
+                machine learning.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="/prediction/" class="btn btn-primary">
+                    Start Prediction
+                </a>
+
+                <a href="/dashboard/" class="btn btn-secondary">
+                    Explore Results
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- HERO VISUAL -->
+
+        <div class="hero-visual">
+
+            <div class="analysis-card">
+
+                <div class="analysis-header">
+
+                    <h3>
+                        Stress Analysis
+                    </h3>
+
+                    <span class="status">
+                        DATA MINING
+                    </span>
+
+                </div>
+
+
+                <div class="stress-display">
+
+                    <div class="emoji">
+                        📊
+                    </div>
+
+                    <h2>
+                        Three Stress Categories
+                    </h2>
+
+                    <p>
+                        Low · Medium · High
+                    </p>
+
+                </div>
+
+
+                <div class="mini-bars">
+
+                    <div class="mini-row">
+
+                        <span>
+                            Low Stress
+                        </span>
+
+                        <div class="bar bar-low">
+                            <span></span>
+                        </div>
+
+                        <strong>
+                            12.66%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="mini-row">
+
+                        <span>
+                            Medium
+                        </span>
+
+                        <div class="bar bar-medium">
+                            <span></span>
+                        </div>
+
+                        <strong>
+                            68.18%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="mini-row">
+
+                        <span>
+                            High Stress
+                        </span>
+
+                        <div class="bar bar-high">
+                            <span></span>
+                        </div>
+
+                        <strong>
+                            19.15%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= INTRODUCTION ================= -->
+
+    <section class="intro">
+
+        <div class="section-label">
+            ABOUT THE SYSTEM
+        </div>
+
+        <h2 class="section-title">
+            Turning Family Data Into Meaningful Insights
+        </h2>
+
+        <p class="section-description">
+
+            The Family Stress Analysis system applies data mining
+            and machine learning techniques to examine relationships
+            between personal, family, employment, income, and
+            work-family factors. The system combines descriptive
+            mining for discovering patterns with predictive modelling
+            for classifying stress categories.
+
+        </p>
+
+    </section>
+
+
+
+    <!-- ================= ANALYSIS METHODS ================= -->
+
+    <section class="analysis-section">
+
+        <div class="center-heading">
+
+            <div class="section-label">
+                DATA MINING METHODS
+            </div>
+
+            <h2 class="section-title">
+                How the Data Is Analyzed
+            </h2>
+
+            <p class="section-description">
+                Multiple data mining techniques are used to examine
+                the dataset from different perspectives.
+            </p>
+
+        </div>
+
+
+        <div class="analysis-grid">
+
+
+            <div class="analysis-box">
+
+                <div class="analysis-icon">
+                    📊
+                </div>
+
+                <h3>
+                    K-Means Clustering
+                </h3>
+
+                <p>
+                    Groups individuals with similar characteristics
+                    based on important numerical family and
+                    work-related factors.
+                </p>
+
+                <span class="method-tag">
+                    DESCRIPTIVE MINING
+                </span>
+
+            </div>
+
+
+            <div class="analysis-box">
+
+                <div class="analysis-icon">
+                    🔗
+                </div>
+
+                <h3>
+                    Apriori Association
+                </h3>
+
+                <p>
+                    Identifies combinations of factors that frequently
+                    occur together with particular stress categories.
+                </p>
+
+                <span class="method-tag">
+                    PATTERN DISCOVERY
+                </span>
+
+            </div>
+
+
+            <div class="analysis-box">
+
+                <div class="analysis-icon">
+                    🧩
+                </div>
+
+                <h3>
+                    Factor Association
+                </h3>
+
+                <p>
+                    Examines the strength of relationships between
+                    numerical and categorical factors and stress.
+                </p>
+
+                <span class="method-tag">
+                    ASSOCIATION ANALYSIS
+                </span>
+
+            </div>
+
+
+            <div class="analysis-box">
+
+                <div class="analysis-icon">
+                    🤖
+                </div>
+
+                <h3>
+                    Random Forest
+                </h3>
+
+                <p>
+                    Uses an ensemble machine learning model to
+                    classify individuals into Low, Medium, or
+                    High stress categories.
+                </p>
+
+                <span class="method-tag">
+                    PREDICTIVE MINING
+                </span>
+
+            </div>
+
+
+            <div class="analysis-box">
+
+                <div class="analysis-icon">
+                    📈
+                </div>
+
+                <h3>
+                    Model Evaluation
+                </h3>
+
+                <p>
+                    Evaluates prediction performance using accuracy,
+                    precision, recall, F1-score, AUC, and
+                    cross-validation.
+                </p>
+
+                <span class="method-tag">
+                    EVALUATION
+                </span>
+
+            </div>
+
+
+            <div class="analysis-box">
+
+                <div class="analysis-icon">
+                    🔍
+                </div>
+
+                <h3>
+                    Pattern Interpretation
+                </h3>
+
+                <p>
+                    Presents important findings through an interactive
+                    dashboard so that the discovered patterns can
+                    be understood more clearly.
+                </p>
+
+                <span class="method-tag">
+                    RESULTS
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= STRESS CATEGORIES ================= -->
+
+    <section class="stress-section">
+
+        <div class="center-heading">
+
+            <div class="section-label">
+                PREDICTION TARGET
+            </div>
+
+            <h2 class="section-title">
+                Three Stress Categories
+            </h2>
+
+            <p class="section-description">
+                The system classifies individuals into one of three
+                stress categories based on the provided information.
+            </p>
+
+        </div>
+
+
+        <div class="stress-grid">
+
+
+            <div class="stress-card low-card">
+
+                <div class="stress-icon">
+                    🌱
+                </div>
+
+                <h3>
+                    Low Stress
+                </h3>
+
+                <p>
+                    Represents the low stress category identified
+                    by the trained classification model.
+                </p>
+
+            </div>
+
+
+            <div class="stress-card medium-card">
+
+                <div class="stress-icon">
+                    ⚖️
+                </div>
+
+                <h3>
+                    Medium Stress
+                </h3>
+
+                <p>
+                    Represents the medium stress category and
+                    contains the largest group in the dataset.
+                </p>
+
+            </div>
+
+
+            <div class="stress-card high-card">
+
+                <div class="stress-icon">
+                    ⚠️
+                </div>
+
+                <h3>
+                    High Stress
+                </h3>
+
+                <p>
+                    Represents the high stress category identified
+                    from the analyzed family and personal factors.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= PROJECT STATISTICS ================= -->
+
+    <section class="stats-section">
+
+        <h2 class="stats-title">
+            Project at a Glance
+        </h2>
+
+
+        <div class="stats">
+
+
+            <div class="stat">
+
+                <h2>
+                    20,100
+                </h2>
+
+                <p>
+                    Original Records
+                </p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <h2>
+                    18,419
+                </h2>
+
+                <p>
+                    Processed Records
+                </p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <h2>
+                    3
+                </h2>
+
+                <p>
+                    Stress Categories
+                </p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <h2>
+                    84.85%
+                </h2>
+
+                <p>
+                    Random Forest Accuracy
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= KEY FINDING ================= -->
+
+    <section class="finding-section">
+
+        <div class="finding-card">
+
+
+            <div class="finding-number">
+
+                0.3480
+
+                <small>
+                    EPSILON-SQUARED
+                </small>
+
+            </div>
+
+
+            <div class="finding-content">
+
+                <div class="section-label">
+                    KEY DESCRIPTIVE FINDING
+                </div>
+
+                <h2>
+                    Work-Family Balance Shows the Strongest Association
+                </h2>
+
+                <p>
+
+                    Among the numerical factors analyzed, Work-Family
+                    Balance showed the strongest association with
+                    stress category, with an Epsilon-squared effect
+                    size of 0.3480. This indicates that work-family
+                    balance was the most strongly associated numerical
+                    factor in the factor association analysis.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= HOW IT WORKS ================= -->
+
+    <section class="process">
+
+        <h2 class="process-title">
+            How the System Works
+        </h2>
+
+
+        <div class="steps">
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    1
+                </div>
+
+                <h3>
+                    Enter Information
+                </h3>
+
+                <p>
+                    Provide personal, family, employment, income,
+                    and work-family information through the
+                    prediction interface.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    2
+                </div>
+
+                <h3>
+                    Analyze Data
+                </h3>
+
+                <p>
+                    The system processes the input and applies the
+                    trained Random Forest classification model.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    3
+                </div>
+
+                <h3>
+                    View Prediction
+                </h3>
+
+                <p>
+                    The system displays the predicted stress
+                    category based on the provided information.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= CTA ================= -->
+
+    <section class="cta">
+
+        <h2>
+            Ready to Analyze Stress?
+        </h2>
+
+        <p>
+            Enter the required information and let the system
+            predict the stress category.
+        </p>
+
+        <a href="/prediction/" class="cta-btn">
+            Predict Stress
+        </a>
+
+    </section>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            Family Stress Analysis | Data & Knowledge Mining Project
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>

@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Stress Prediction</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f7fb;
+        color: #263238;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+        background: #263b5b;
+        padding: 18px 50px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar h2 {
+        color: white;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 25px;
+    }
+
+    .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 15px;
+    }
+
+    .nav-links a:hover {
+        color: #b9d7ff;
+    }
+
+    /* Main Container */
+    .container {
+        width: 90%;
+        max-width: 1050px;
+        margin: 40px auto;
+    }
+
+    /* Page Header */
+    .page-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .page-header h1 {
+        color: #263b5b;
+        margin-bottom: 10px;
+        font-size: 36px;
+    }
+
+    .page-header p {
+        color: #667085;
+        line-height: 1.6;
+    }
+
+    /* Form Card */
+    .form-card {
+        background: white;
+        padding: 35px;
+        border-radius: 14px;
+
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Form Grid */
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #263b5b;
+        margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 12px 13px;
+
+        border: 1px solid #d0d5dd;
+        border-radius: 7px;
+
+        font-size: 14px;
+        background: white;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        outline: none;
+        border-color: #263b5b;
+        box-shadow: 0 0 0 2px rgba(38, 59, 91, 0.1);
+    }
+
+    /* Full Width */
+    .full-width {
+        grid-column: 1 / -1;
+    }
+
+    /* Button */
+    .button-container {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .predict-btn {
+        border: none;
+        background: #263b5b;
+        color: white;
+
+        padding: 14px 35px;
+
+        border-radius: 7px;
+
+        font-size: 16px;
+        font-weight: bold;
+
+        cursor: pointer;
+    }
+
+    .predict-btn:hover {
+        background: #1b2d46;
+    }
+
+    /* Result */
+    .result {
+        margin-top: 30px;
+
+        padding: 28px;
+
+        border-radius: 14px;
+
+        background: white;
+
+        text-align: center;
+
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .result h2 {
+        color: #263b5b;
+        margin-bottom: 15px;
+    }
+
+    .stress-badge {
+        display: inline-block;
+
+        padding: 11px 25px;
+
+        border-radius: 25px;
+
+        background: #eef3f9;
+        color: #263b5b;
+
+        font-weight: bold;
+        font-size: 19px;
+    }
+
+    .result p {
+        margin-top: 15px;
+        color: #667085;
+    }
+
+    /* Information Box */
+    .info-box {
+        margin-top: 25px;
+
+        padding: 18px;
+
+        background: #f8fafc;
+
+        border-left: 4px solid #263b5b;
+
+        border-radius: 6px;
+    }
+
+    .info-box p {
+        color: #667085;
+        line-height: 1.6;
+        font-size: 14px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 700px) {
+
+        .navbar {
+            padding: 18px 20px;
+
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .full-width {
+            grid-column: auto;
+        }
+
+        .form-card {
+            padding: 22px;
+        }
+
+        .page-header h1 {
+            font-size: 30px;
+        }
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- Navigation Bar -->
+<nav class="navbar">
+
+    <h2>Family Stress Analysis</h2>
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+
+        <a href="/prediction/">Prediction</a>
+
+        <a href="/dashboard/">Dashboard</a>
+
+    </div>
+
+</nav>
+
+
+<!-- Main Container -->
+<div class="container">
+
+
+    <!-- Page Header -->
+    <div class="page-header">
+
+        <h1>Stress Prediction</h1>
+
+        <p>
+            Enter the required family and personal information
+            to predict the stress category.
+        </p>
+
+    </div>
+
+
+    <!-- Prediction Form -->
+    <div class="form-card">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <div class="form-grid">
+
+
+                <!-- 1. Age -->
+                <div class="form-group">
+
+                    <label for="age">
+                        Age
+                    </label>
+
+                    <input
+                        type="number"
+                        id="age"
+                        name="age"
+                        min="18"
+                        max="80"
+                        step="1"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- 2. Gender -->
+                <div class="form-group">
+
+                    <label for="gender">
+                        Gender
+                    </label>
+
+                    <select
+                        id="gender"
+                        name="gender"
+                        required
+                    >
+
+                        <option value="">
+                            Select Gender
+                        </option>
+
+                        <option value="Male">
+                            Male
+                        </option>
+
+                        <option value="Female">
+                            Female
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- 3. Education Level -->
+                <div class="form-group">
+
+                    <label for="education_level">
+                        Education Level
+                    </label>
+
+                    <select
+                        id="education_level"
+                        name="education_level"
+                        required
+                    >
+
+                        <option value="">
+                            Select Education Level
+                        </option>
+
+                        <option value="Primary">
+                            Primary
+                        </option>
+
+                        <option value="High School">
+                            High School
+                        </option>
+
+                        <option value="Bachelor's">
+                            Bachelor's
+                        </option>
+
+                        <option value="Master's">
+                            Master's
+                        </option>
+
+                        <option value="PhD">
+                            PhD
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- 4. Employment Status -->
+                <div class="form-group">
+
+                    <label for="employment_status">
+                        Employment Status
+                    </label>
+
+                    <select
+                        id="employment_status"
+                        name="employment_status"
+                        required
+                    >
+
+                        <option value="">
+                            Select Employment Status
+                        </option>
+
+                        <option value="Employed">
+                            Employed
+                        </option>
+
+                        <option value="Unemployed">
+                            Unemployed
+                        </option>
+
+                        <option value="Student">
+                            Student
+                        </option>
+
+                        <option value="Retired">
+                            Retired
+                        </option>
+
+                        <option value="Unknown">
+                            Unknown
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- 5. Family History -->
+                <div class="form-group">
+
+                    <label for="family_history_mental_illness">
+                        Family History of Mental Illness
+                    </label>
+
+                    <select
+                        id="family_history_mental_illness"
+                        name="family_history_mental_illness"
+                        required
+                    >
+
+                        <option value="">
+                            Select Option
+                        </option>
+
+                        <option value="Yes">
+                            Yes
+                        </option>
+
+                        <option value="No">
+                            No
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- 6. Personal Income -->
+                <div class="form-group">
+
+                    <label for="annual_personal_income">
+                        Annual Personal Income
+                    </label>
+
+                    <input
+                        type="number"
+                        id="annual_personal_income"
+                        name="annual_personal_income"
+                        min="0"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- 7. Family Income -->
+                <div class="form-group">
+
+                    <label for="annual_family_income">
+                        Annual Family Income
+                    </label>
+
+                    <input
+                        type="number"
+                        id="annual_family_income"
+                        name="annual_family_income"
+                        min="0"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- 8. Relationship with Family -->
+                <div class="form-group">
+
+                    <label for="relationship_with_family">
+                        Relationship with Family
+                    </label>
+
+                    <select
+                        id="relationship_with_family"
+                        name="relationship_with_family"
+                        required
+                    >
+
+                        <option value="">
+                            Select Relationship
+                        </option>
+
+                        <option value="Good">
+                            Good
+                        </option>
+
+                        <option value="Excellent">
+                            Excellent
+                        </option>
+
+                        <option value="Neutral">
+                            Neutral
+                        </option>
+
+                        <option value="Bad">
+                            Bad
+                        </option>
+
+                        <option value="Terrible">
+                            Terrible
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- 9. Marital Status -->
+                <div class="form-group">
+
+                    <label for="marital_status">
+                        Marital Status
+                    </label>
+
+                    <select
+                        id="marital_status"
+                        name="marital_status"
+                        required
+                    >
+
+                        <option value="">
+                            Select Marital Status
+                        </option>
+
+                        <option value="Single">
+                            Single
+                        </option>
+
+                        <option value="Married">
+                            Married
+                        </option>
+
+                        <option value="Divorced">
+                            Divorced
+                        </option>
+
+                        <option value="Widowed">
+                            Widowed
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- 10. Number of Children -->
+                <div class="form-group">
+
+                    <label for="number_of_children">
+                        Number of Children
+                    </label>
+
+                    <input
+                        type="number"
+                        id="number_of_children"
+                        name="number_of_children"
+                        min="0"
+                        step="1"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- 11. Family Members -->
+                <div class="form-group">
+
+                    <label for="number_of_family_members">
+                        Number of Family Members
+                    </label>
+
+                    <input
+                        type="number"
+                        id="number_of_family_members"
+                        name="number_of_family_members"
+                        min="1"
+                        step="1"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- 12. Job Type -->
+                <div class="form-group">
+
+                    <label for="job_type">
+                        Job Type
+                    </label>
+
+                    <select
+                        id="job_type"
+                        name="job_type"
+                        required
+                    >
+
+                        <option value="">
+                            Select Job Type
+                        </option>
+
+                        <option value="Employee">
+                            Employee
+                        </option>
+
+                        <option value="Entrepreneur">
+                            Entrepreneur
+                        </option>
+
+                        <option value="Freelancer">
+                            Freelancer
+                        </option>
+
+                        <option value="Manager">
+                            Manager
+                        </option>
+
+                        <option value="Merchant">
+                            Merchant
+                        </option>
+
+                        <option value="Public sector">
+                            Public Sector
+                        </option>
+
+                        <option value="Self-employed worker">
+                            Self-employed Worker
+                        </option>
+
+                        <option value="Worker">
+                            Worker
+                        </option>
+
+                        <option value="Unknown">
+                            Unknown
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- 13. Employment Contract -->
+                <div class="form-group">
+
+                    <label for="employment_contract_type">
+                        Employment Contract Type
+                    </label>
+
+                    <select
+                        id="employment_contract_type"
+                        name="employment_contract_type"
+                        required
+                    >
+
+                        <option value="">
+                            Select Contract Type
+                        </option>
+
+                        <option value="Permanent">
+                            Permanent
+                        </option>
+
+                        <option value="Temporary">
+                            Temporary
+                        </option>
+
+                        <option value="Unknown">
+                            Unknown
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- 14. Daily Family Time -->
+                <div class="form-group">
+
+                    <label for="daily_time_dedicated_to_family">
+                        Daily Time Dedicated to Family
+                    </label>
+
+                    <input
+                        type="number"
+                        id="daily_time_dedicated_to_family"
+                        name="daily_time_dedicated_to_family"
+                        min="0"
+                        step="0.1"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- 15. Work-Family Balance -->
+                <div class="form-group">
+
+                    <label for="work_family_balance">
+                        Work-Family Balance
+                    </label>
+
+                    <input
+                        type="number"
+                        id="work_family_balance"
+                        name="work_family_balance"
+                        min="1"
+                        max="10"
+                        step="0.1"
+                        required
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <!-- Information -->
+            <div class="info-box">
+
+                <p>
+                    Please provide accurate information for all fields.
+                    The system uses the trained Random Forest model to
+                    predict the stress category.
+                </p>
+
+            </div>
+
+
+            <!-- Predict Button -->
+            <div class="button-container">
+
+                <button
+                    type="submit"
+                    class="predict-btn"
+                >
+                    Predict Stress
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+
+    <!-- Prediction Result -->
+    {% if prediction %}
+
+    <div class="result">
+
+        <h2>Prediction Result</h2>
+
+        <div class="stress-badge">
+            {{ prediction }} Stress
+        </div>
+
+        <p>
+            The prediction is based on the information provided above.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+
+</div>
+```
+
+</body>
+
+</html>
